@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -74,6 +76,13 @@ class MainFragment : Fragment(), TodoAdapter.AdapterListener {
         mainViewModel.getAllTodos()
         mainViewModel.observeTodos().observe(viewLifecycleOwner, Observer{
             adapter.updateList(it as MutableList<Todo>)
+        })
+        mainViewModel.observeException().observe(viewLifecycleOwner, Observer {
+            if (it != null){
+                tv_error.visibility = VISIBLE
+                rv_todo_list.visibility = GONE
+                fab_add.visibility = GONE
+            }
         })
 
     }

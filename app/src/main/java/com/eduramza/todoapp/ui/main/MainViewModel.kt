@@ -1,5 +1,6 @@
 package com.eduramza.todoapp.ui.main
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +12,10 @@ import java.lang.Exception
 class MainViewModel(private val todoRepository: TodoRepository) : ViewModel() {
 
     private val _todos = MutableLiveData<List<Todo>>()
-    fun observeTodos() = _todos
+    fun observeTodos(): LiveData<List<Todo>> = _todos
 
     private val _exception = MutableLiveData<String>()
-    fun observeException() = _exception
+    fun observeException(): LiveData<String> = _exception
 
     fun insertNewTask(text: String){
         viewModelScope.launch {

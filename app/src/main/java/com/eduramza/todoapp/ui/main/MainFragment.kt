@@ -20,6 +20,7 @@ import com.eduramza.todoapp.database.repository.TodoRepository
 import com.eduramza.todoapp.database.repository.TodoRepositoryImpl
 import com.eduramza.todoapp.database.source.AppDatabase
 import kotlinx.android.synthetic.main.main_fragment.*
+import leakcanary.AppWatcher
 
 class MainFragment : Fragment(), TodoAdapter.AdapterListener {
 
@@ -56,6 +57,8 @@ class MainFragment : Fragment(), TodoAdapter.AdapterListener {
         setupList()
         observer()
         fab_add.setOnClickListener { openDialogAddTodo() }
+
+        AppWatcher.objectWatcher.watch(this, "Main Fargment was detached")
     }
 
     private fun initDB(){
@@ -126,6 +129,16 @@ class MainFragment : Fragment(), TodoAdapter.AdapterListener {
 
     override fun markWithComplete(todo: Todo) {
         mainViewModel.updateTaskMarkComplete(todo)
+    }
+
+    override fun onDestroy() {
+        rv_todo_list.adapter = null
+        super.onDestroy()
+    }
+
+    override fun onPause() {
+        rv_todo_list.adapter = null
+        super.onPause()
     }
 
 }

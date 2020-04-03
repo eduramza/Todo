@@ -17,7 +17,7 @@ abstract class AppDatabase: RoomDatabase(){
         private val LOCK = Any()
 
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
-            instance ?: buildDatabase(context).also { instance = it }
+            instance ?: buildDatabase(context.applicationContext).also { instance = it }
         }
 
         private fun buildDatabase(context: Context) = Room.databaseBuilder(
